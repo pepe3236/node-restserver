@@ -15,11 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use( require('./rutas/usuario'))
+app.use(require('./rutas/index'))
 
-app.use('usuario', function(res, req, next){
-  console.log('Loggin');
-})
+
  
   mongoose.connect('mongodb+srv://stand:Nwn460qHkz8T8wcG@cluster0.mrumd.mongodb.net/<cafe>?retryWrites=true&w=majority', 
   {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology:true },

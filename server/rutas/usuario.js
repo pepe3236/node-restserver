@@ -4,12 +4,14 @@ const bcrypt = require('bcrypt')
 const _=require('underscore')
 
 const Usuario = require('../modelos/usuario')
-const usuario = require('../modelos/usuario')
+const {verificaToken} = require('../middlewares/auth')
+const {verificaAdmin} = require('../middlewares/auth')
 
 
 const app = express()
 
-app.get('/usuario', function (req, res) {
+app.get('/usuario', [verificaToken, verificaAdmin], (req, res) => {
+
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -44,7 +46,7 @@ app.get('/usuario', function (req, res) {
 
   })
   
-  app.post('/usuario', function (req, res) {
+  app.post('/usuario', [verificaToken, verificaAdmin], (req, res) => {
    
       let body = req.body;
 
@@ -76,7 +78,7 @@ usuario.save((err, usuarioDB) => {
  
     })
   
-    app.put('/usuario/:id', function (req, res) {
+    app.put('/usuario/:id', [verificaToken, verificaAdmin], (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['nombre','email','img','role','estado'])
 
@@ -101,7 +103,7 @@ usuario.save((err, usuarioDB) => {
 
     })
    
-    app.delete('/usuario/:id', function (req, res) {
+    app.delete('/usuario/:id', [verificaToken, verificaAdmin],  (req, res) => {
       
         let id = req.params.id;
 
